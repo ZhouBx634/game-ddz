@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>斗地主</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: linear-gradient(180deg, #0d4a0d 0%, #1a6b1a 50%, #0d4a0d 100%);
+            min-height: 100vh;
+            overflow: hidden;
+            touch-action: manipulation;
+        }
+        .table {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px;
+            position: relative;
+        }
+        .info-bar {
+            background: rgba(0,0,0,0.5);
+            border-radius: 20px;
+            padding: 6px 20px;
+            color: #ffd700;
+            font-size: 15px;
+            font-weight: bold;
+            text-align: center;
+            z-index: 100;
+            max-width: 90vw;
+        }
+        .ai-area {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            padding: 0 10px;
+        }
+        .ai-player {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+        .ai-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            border: 2px solid #ffd700;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        .ai-avatar.landlord {
+            border-color: #ff4444;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+        }
+        .ai-name { color: white; font-size: 12px; font-weight: bold; }
+        .ai-count { color: #ffd700; font-size: 11px; background: rgba(0,0,0,0.4); padding: 1px 8px; border-radius: 8px; }
+        .ai-cards { display: flex; margin-left: 8px; }
+        .card-back {
+            width: 28px;
+            height: 40px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 4px;
+            margin-left: -12px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+        }
+        .play-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            position: relative;
+        }
+        .bottom-cards-area {
+            position: absolute;
+            top: 0;
+            right: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+        }
+        .bottom-label { color: #ffd700; font-size: 10px; font-weight: bold; }
+        .bottom-cards { display: flex; gap: 3px; }
+        .last-play-info { color: rgba(255,255,255,0.6); font-size: 12px; margin-bottom: 6px; height: 16px; }
+        .played-cards {
+            display: flex;
+            gap: 4px;
+            min-height: 60px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 10px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 12px;
+            min-width: 160px;
+            max-width: 90vw;
+        }
+        .card {
+            width: 44px;
+            height: 62px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            transition: transform 0.15s;
+            position: relative;
+        }
+        .card.red { color: #e74c3c; }
+        .card.black { color: #2c3e50; }
+        .card.small { width: 36px; height: 50px; font-size: 13px; }
+        .card.joker {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 11px;
+        }
+        .player-area {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            padding-bottom: env(safe-area-inset-bottom, 8px);
+        }
+        .player-hand {
+            display: flex;
+            justify-content: center;
+            padding: 6px;
+            min-height: 80px;
+            align-items: flex-end;
+            overflow-x: auto;
+            max-width: 100vw;
+        }
+        .player-hand .card {
+            margin-left: -22px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .player-hand .card:first-child { margin-left: 0; }
+        .player-hand .card.selected {
+            transform: translateY(-14px);
+            box-shadow: 0 4px 15px rgba(255,215,0,0.5);
+            border: 2px solid #ffd700;
+            z-index: 10;
+        }
+        .btn-area {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 4px;
+        }
+        .btn {
+            padding: 8px 22px;
+            border: none;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            transition: transform 0.1s;
+            -webkit-appearance: none;
+        }
+        .btn:active { transform: scale(0.95); }
+        .btn-primary { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; }
+        .btn-secondary { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; }
+        .btn-warning { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); color: #333; }
+        .btn:disabled { opacity: 0.4; }
+        .toast {
+            position: fixed;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.85);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 24px;
+            font-size: 15px;
+            font-weight: bold;
+            z-index: 1000;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.75);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+        .modal {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border: 2px solid #ffd700;
+            border-radius: 16px;
+            padding: 30px 25px;
+            text-align: center;
+            color: white;
+            width: 80vw;
+            max-width: 320px;
+        }
+        .modal h2 { font-size: 26px; margin-bottom: 12px; color: #ffd700; }
+        .modal p { font-size: 15px; margin-bottom: 20px; color: #ccc; line-height: 1.5; }
+    </style>
+</head>
+<body>
+    <div class="table">
+        <div class="info-bar" id="infoBar">欢迎来到斗地主！点击"开始游戏"</div>
+        <div class="ai-area">
+            <div class="ai-player">
+                <div class="ai-avatar" id="avatarLeft">🤖</div>
+                <div class="ai-name">上家</div>
+                <div class="ai-count" id="countLeft">0张</div>
+                <div class="ai-cards" id="cardsLeft"></div>
+            </div>
+            <div class="ai-player">
+                <div class="ai-avatar" id="avatarRight">🤖</div>
+                <div class="ai-name">下家</div>
+                <div class="ai-count" id="countRight">0张</div>
+                <div class="ai-cards" id="cardsRight"></div>
+            </div>
+        </div>
+        <div class="play-area">
+            <div class="bottom-cards-area" id="bottomArea" style="display:none;">
+                <div class="bottom-label">底牌</div>
+                <div class="bottom-cards" id="bottomCards"></div>
+            </div>
+            <div class="last-play-info" id="lastPlayInfo"></div>
+            <div class="played-cards" id="playedCards">
+                <div style="color:rgba(255,255,255,0.4);font-size:14px;">点击"开始游戏"开始</div>
+            </div>
+        </div>
+        <div class="player-area">
+            <div class="btn-area" id="btnArea">
+                <button class="btn btn-primary" id="btnStart" onclick="startGame()">开始游戏</button>
+                <button class="btn btn-secondary" id="btnBid" onclick="bidLandlord()" style="display:none;">叫地主</button>
+                <button class="btn btn-warning" id="btnNoBid" onclick="noBid()" style="display:none;">不叫</button>
+                <button class="btn btn-primary" id="btnPlay" onclick="playCards()" style="display:none;">出牌</button>
+                <button class="btn btn-secondary" id="btnPass" onclick="passTurn()" style="display:none;">不要</button>
+                <button class="btn btn-warning" id="btnNew" onclick="startGame()" style="display:none;">再来一局</button>
+            </div>
+            <div class="player-hand" id="playerHand"></div>
+        </div>
+    </div>
+<script>
+const CARD_VALUES = {'3':3,'4':4,'5':5,'6':6,'7':7,'8':8,'9':9,'10':10,'J':11,'Q':12,'K':13,'A':14,'2':15,'小王':16,'大王':17};
+const SUITS = ['♠','♥','♣','♦'];
+const RANKS = ['3','4','5','6','7','8','9','10','J','Q','K','A','2'];
+let playerHand=[], ai1Hand=[], ai2Hand=[], bottomCards=[], landlord=-1, currentPlayer=0, lastPlay=null, passCount=0, gameState='idle', selectedIndices=[];
+
+function createDeck(){const d=[];for(const s of SUITS)for(const r of RANKS)d.push({suit:s,rank:r,value:CARD_VALUES[r]});d.push({suit:null,rank:'小王',value:16});d.push({suit:null,rank:'大王',value:17});for(let i=d.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[d[i],d[j]]=[d[j],d[i]];}return d;}
+function sortHand(h){return h.sort((a,b)=>a.value-b.value);}
+function getCardHTML(c,small=false,sel=false,idx=-1,selected=false){const isRed=c.suit==='♥'||c.suit==='♦'||c.rank==='小王'||c.rank==='大王';const cls=(isRed?'red ':'black ')+(small?'small ':'')+(c.suit===null?'joker ':'')+(sel&&selected?'selected':'');const txt=c.suit?c.suit+c.rank:c.rank;if(sel)return`<div class="card ${cls}" data-idx="${idx}" onclick="toggleCard(${idx})">${txt}</div>`;return`<div class="card ${cls}">${txt}</div>`;}
+function showToast(m){const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),1200);}
+
+function getPattern(cards){
+    if(!cards||cards.length===0)return null;
+    const n=cards.length,values=cards.map(c=>c.value).sort((a,b)=>a-b),unique=[...new Set(values)].sort((a,b)=>a-b);
+    const counts={};for(const v of values)counts[v]=(counts[v]||0)+1;
+    const cntVals=Object.values(counts).sort((a,b)=>a-b);
+    if(n===2&&values.includes(16)&&values.includes(17))return{type:'rocket',main:17,level:100};
+    if(n===4&&unique.length===1)return{type:'bomb',main:values[0],level:90};
+    if(n===1)return{type:'single',main:values[0],level:1};
+    if(n===2&&unique.length===1)return{type:'pair',main:values[0],level:2};
+    if(n===3&&unique.length===1)return{type:'triple',main:values[0],level:3};
+    if(n===4&&cntVals.join(',')==='1,3'){const m=Object.keys(counts).find(k=>counts[k]===3);return{type:'triple1',main:parseInt(m),level:4};}
+    if(n===5&&cntVals.join(',')==='2,3'){const m=Object.keys(counts).find(k=>counts[k]===3);return{type:'triple2',main:parseInt(m),level:5};}
+    if(n>=5&&unique.length===n&&Math.max(...values)<=14){let ok=true;for(let i=0;i<unique.length-1;i++)if(unique[i+1]-unique[i]!==1)ok=false;if(ok)return{type:`straight${n}`,main:Math.max(...values),level:10+n};}
+    if(n>=6&&n%2===0&&cntVals.every(c=>c===2)&&Math.max(...values)<=14){let ok=true;for(let i=0;i<unique.length-1;i++)if(unique[i+1]-unique[i]!==1)ok=false;if(ok)return{type:`straightPair${n}`,main:Math.max(...values),level:20+n};}
+    if(n>=6&&n%3===0){const trips=Object.keys(counts).filter(k=>counts[k]===3).map(Number).sort((a,b)=>a-b);if(trips.length===n/3&&Math.max(...trips)<=14){let ok=true;for(let i=0;i<trips.length-1;i++)if(trips[i+1]-trips[i]!==1)ok=false;if(ok)return{type:`airplane${n}`,main:Math.max(...trips),level:30+n};}}
+    return null;
+}
+function canBeat(last,newP){if(!last)return newP!==null;if(!newP)return false;if(newP.type==='rocket')return true;if(newP.type==='bomb'){if(last.type==='rocket')return false;if(last.type==='bomb')return newP.main>last.main;return true;}if(last.type==='bomb'||last.type==='rocket')return false;if(newP.type!==last.type)return false;if(newP.level!==last.level)return false;return newP.main>last.main;}
+
+function aiSelectCards(hand,lastPat){
+    const cand=[];
+    for(const c of hand){const p=getPattern([c]);if(canBeat(lastPat,p))cand.push({cards:[c],pat:p});}
+    const groups={};for(const c of hand){if(!groups[c.value])groups[c.value]=[];groups[c.value].push(c);}
+    for(const v in groups){if(groups[v].length>=2){const p=getPattern(groups[v].slice(0,2));if(canBeat(lastPat,p))cand.push({cards:groups[v].slice(0,2),pat:p});}}
+    for(const v in groups){if(groups[v].length>=3){const p=getPattern(groups[v].slice(0,3));if(canBeat(lastPat,p))cand.push({cards:groups[v].slice(0,3),pat:p});}}
+    for(const v in groups){if(groups[v].length===4){const p=getPattern(groups[v]);if(canBeat(lastPat,p))cand.push({cards:groups[v],pat:p});}}
+    const jokers=hand.filter(c=>c.rank==='小王'||c.rank==='大王');if(jokers.length===2){const p=getPattern(jokers);if(canBeat(lastPat,p))cand.push({cards:jokers,pat:p});}
+    if(cand.length===0)return null;
+    cand.sort((a,b)=>a.pat.main-b.pat.main);
+    if(hand.length<=3)cand.sort((a,b)=>a.pat.level-b.pat.level);
+    return cand[0].cards;
+}
+
+function updateUI(){
+    document.getElementById('cardsLeft').innerHTML='';document.getElementById('cardsRight').innerHTML='';
+    for(let i=0;i<ai1Hand.length;i++)document.getElementById('cardsLeft').innerHTML+=`<div class="card-back"></div>`;
+    for(let i=0;i<ai2Hand.length;i++)document.getElementById('cardsRight').innerHTML+=`<div class="card-back"></div>`;
+    document.getElementById('countLeft').textContent=ai1Hand.length+'张';
+    document.getElementById('countRight').textContent=ai2Hand.length+'张';
+    const ph=document.getElementById('playerHand');ph.innerHTML='';
+    for(let i=0;i<playerHand.length;i++)ph.innerHTML+=getCardHTML(playerHand[i],false,true,i,selectedIndices.includes(i));
+    document.getElementById('avatarLeft').classList.toggle('landlord',landlord===1);
+    document.getElementById('avatarRight').classList.toggle('landlord',landlord===2);
+}
+function updateButtons(){const ids=['btnStart','btnBid','btnNoBid','btnPlay','btnPass','btnNew'];ids.forEach(id=>document.getElementById(id).style.display='none');if(gameState==='idle')document.getElementById('btnStart').style.display='inline-block';else if(gameState==='bidding'){document.getElementById('btnBid').style.display='inline-block';document.getElementById('btnNoBid').style.display='inline-block';}else if(gameState==='playing'){if(currentPlayer===0){document.getElementById('btnPlay').style.display='inline-block';if(lastPlay&&lastPlay.player!==0)document.getElementById('btnPass').style.display='inline-block';}document.getElementById('btnNew').style.display='inline-block';}else if(gameState==='ended')document.getElementById('btnNew').style.display='inline-block';}
+function showPlayedCards(cards,name){const div=document.getElementById('playedCards');if(!cards||cards.length===0)div.innerHTML=`<div style="color:rgba(255,255,255,0.4);font-size:14px;">${name} 不要</div>`;else div.innerHTML=cards.map(c=>getCardHTML(c,true)).join('');document.getElementById('lastPlayInfo').textContent=name+' 出牌';}
+function showBottomCards(){document.getElementById('bottomArea').style.display='flex';document.getElementById('bottomCards').innerHTML=bottomCards.map(c=>getCardHTML(c,true)).join('');}
+
+function startGame(){
+    const d=createDeck();playerHand=sortHand(d.slice(0,17));ai1Hand=sortHand(d.slice(17,34));ai2Hand=sortHand(d.slice(34,51));bottomCards=d.slice(51,54);
+    landlord=-1;currentPlayer=0;lastPlay=null;passCount=0;gameState='bidding';selectedIndices=[];
+    document.getElementById('infoBar').textContent='请叫地主！';document.getElementById('playedCards').innerHTML='<div style="color:rgba(255,255,255,0.4);font-size:14px;">等待叫地主...</div>';document.getElementById('lastPlayInfo').textContent='';document.getElementById('bottomArea').style.display='none';
+    updateUI();updateButtons();
+}
+function toggleCard(i){if(gameState!=='playing'||currentPlayer!==0)return;const idx=selectedIndices.indexOf(i);if(idx>-1)selectedIndices.splice(idx,1);else selectedIndices.push(i);selectedIndices.sort((a,b)=>a-b);updateUI();}
+function bidLandlord(){landlord=0;playerHand=sortHand([...playerHand,...bottomCards]);gameState='playing';currentPlayer=0;document.getElementById('infoBar').textContent='你是地主！请出牌';showBottomCards();updateUI();updateButtons();}
+function noBid(){landlord=Math.random()>0.5?1:2;if(landlord===1){ai1Hand=sortHand([...ai1Hand,...bottomCards]);document.getElementById('infoBar').textContent='上家是地主！';}else{ai2Hand=sortHand([...ai2Hand,...bottomCards]);document.getElementById('infoBar').textContent='下家是地主！';}gameState='playing';currentPlayer=landlord;showBottomCards();updateUI();updateButtons();if(currentPlayer!==0)setTimeout(aiPlay,1000);}
+function playCards(){if(currentPlayer!==0)return;const sel=selectedIndices.map(i=>playerHand[i]);if(sel.length===0){showToast('请选择要出的牌！');return;}const pat=getPattern(sel);if(!pat){showToast('无效的牌型！');return;}const lastPat=lastPlay?lastPlay.pattern:null;if(!canBeat(lastPat,pat)){showToast('打不过上家的牌！');return;}executePlay(0,sel,pat);}
+function executePlay(pIdx,cards,pat){
+    if(pIdx===0){for(let i=cards.length-1;i>=0;i--){const idx=playerHand.indexOf(cards[i]);if(idx>-1)playerHand.splice(idx,1);}selectedIndices=[];}
+    else if(pIdx===1){for(const c of cards){const idx=ai1Hand.indexOf(c);if(idx>-1)ai1Hand.splice(idx,1);}}
+    else{for(const c of cards){const idx=ai2Hand.indexOf(c);if(idx>-1)ai2Hand.splice(idx,1);}}
+    lastPlay={player:pIdx,cards,pat};passCount=0;const names=['你','上家','下家'];showPlayedCards(cards,names[pIdx]);updateUI();
+    const hands=[playerHand,ai1Hand,ai2Hand];if(hands[pIdx].length===0){gameOver(names[pIdx]+' 赢了！');return;}
+    currentPlayer=(pIdx+1)%3;updateButtons();if(currentPlayer!==0)setTimeout(aiPlay,1200);else document.getElementById('infoBar').textContent='请出牌';
+}
+function passTurn(){if(currentPlayer!==0)return;if(!lastPlay){showToast('你是首家，必须出牌！');return;}passCount++;document.getElementById('infoBar').textContent='你选择了不要';showPlayedCards(null,'你');if(passCount>=2){lastPlay=null;passCount=0;document.getElementById('playedCards').innerHTML='<div style="color:rgba(255,255,255,0.4);font-size:14px;">新一轮，请自由出牌</div>';document.getElementById('lastPlayInfo').textContent='';}currentPlayer=1;selectedIndices=[];updateUI();updateButtons();setTimeout(aiPlay,1000);}
+function aiPlay(){if(gameState!=='playing')return;const hand=currentPlayer===1?ai1Hand:ai2Hand;const lastPat=(lastPlay&&passCount<2)?lastPlay.pattern:null;const cards=aiSelectCards(hand,lastPat);if(!cards){passCount++;const name=currentPlayer===1?'上家':'下家';document.getElementById('infoBar').textContent=name+' 不要';showPlayedCards(null,name);if(passCount>=2){lastPlay=null;passCount=0;document.getElementById('playedCards').innerHTML='<div style="color:rgba(255,255,255,0.4);font-size:14px;">新一轮，请自由出牌</div>';document.getElementById('lastPlayInfo').textContent='';}currentPlayer=(currentPlayer+1)%3;updateButtons();if(currentPlayer!==0)setTimeout(aiPlay,1000);else document.getElementById('infoBar').textContent='请出牌';}
+    else{const pat=getPattern(cards);executePlay(currentPlayer,cards,pat);}
+}
+function gameOver(msg){gameState='ended';document.getElementById('infoBar').textContent=msg;const ov=document.createElement('div');ov.className='modal-overlay';ov.innerHTML=`<div class="modal"><h2>🎉 游戏结束</h2><p>${msg}</p><button class="btn btn-primary" onclick="this.parentElement.parentElement.remove();startGame();">再来一局</button></div>`;document.body.appendChild(ov);updateButtons();}
+updateUI();
+</script>
+</body>
+</html>

@@ -21,15 +21,15 @@ html_code = '''<!DOCTYPE html>
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
-            padding: 6px;
+            padding: 4px;
             position: relative;
         }
         .info-bar {
             background: rgba(0,0,0,0.55);
             border-radius: 20px;
-            padding: 6px 24px;
+            padding: 5px 20px;
             color: #ffd700;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: bold;
             text-align: center;
             z-index: 100;
@@ -46,17 +46,17 @@ html_code = '''<!DOCTYPE html>
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 3px;
+            gap: 2px;
         }
         .ai-avatar {
-            width: 42px;
-            height: 42px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
+            font-size: 18px;
             border: 2px solid #ffd700;
             box-shadow: 0 2px 8px rgba(0,0,0,0.3);
             transition: border-color 0.3s;
@@ -67,14 +67,14 @@ html_code = '''<!DOCTYPE html>
         }
         .ai-name { color: white; font-size: 11px; font-weight: bold; }
         .ai-count { color: #ffd700; font-size: 10px; background: rgba(0,0,0,0.4); padding: 1px 8px; border-radius: 8px; }
-        .ai-cards { display: flex; margin-left: 6px; }
+        .ai-cards { display: flex; margin-left: 4px; }
         .card-back {
-            width: 26px;
-            height: 38px;
+            width: 24px;
+            height: 34px;
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             border: 1px solid rgba(255,255,255,0.25);
-            border-radius: 4px;
-            margin-left: -10px;
+            border-radius: 3px;
+            margin-left: -8px;
             box-shadow: 0 1px 4px rgba(0,0,0,0.3);
             position: relative;
         }
@@ -83,7 +83,7 @@ html_code = '''<!DOCTYPE html>
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 14px;
+            font-size: 12px;
             opacity: 0.3;
         }
         .play-area {
@@ -95,41 +95,42 @@ html_code = '''<!DOCTYPE html>
             width: 100%;
             position: relative;
             min-height: 0;
+            padding: 4px 0;
         }
         .bottom-cards-area {
             position: absolute;
-            top: 0;
-            right: 8px;
+            top: 2px;
+            right: 6px;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 2px;
         }
-        .bottom-label { color: #ffd700; font-size: 10px; font-weight: bold; }
-        .bottom-cards { display: flex; gap: 3px; }
-        .last-play-info { color: rgba(255,255,255,0.6); font-size: 11px; margin-bottom: 4px; height: 14px; }
+        .bottom-label { color: #ffd700; font-size: 9px; font-weight: bold; }
+        .bottom-cards { display: flex; gap: 2px; }
+        .last-play-info { color: rgba(255,255,255,0.6); font-size: 11px; margin-bottom: 3px; height: 14px; }
         .played-cards {
             display: flex;
             gap: 3px;
-            min-height: 52px;
+            min-height: 48px;
             align-items: center;
             justify-content: center;
             flex-wrap: wrap;
-            padding: 8px;
+            padding: 6px;
             background: rgba(0,0,0,0.2);
             border-radius: 10px;
-            min-width: 140px;
+            min-width: 120px;
             max-width: 94vw;
         }
         
         /* ===== 扑克牌经典样式 ===== */
         .card {
-            width: 46px;
-            height: 66px;
+            width: 40px;
+            height: 56px;
             background: white;
             border: 1px solid #bbb;
-            border-radius: 6px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.25);
             position: relative;
             cursor: pointer;
             transition: transform 0.15s, box-shadow 0.15s;
@@ -138,28 +139,28 @@ html_code = '''<!DOCTYPE html>
         }
         .card.red { color: #e74c3c; }
         .card.black { color: #2c3e50; }
-        .card.small { width: 36px; height: 52px; }
-        .card.small .card-corner-tl { font-size: 9px; line-height: 10px; padding: 2px 3px; }
-        .card.small .card-corner-bl { font-size: 9px; line-height: 10px; padding: 2px 3px; }
-        .card.small .card-center { font-size: 22px; }
+        .card.small { width: 32px; height: 44px; }
+        .card.small .card-corner-tl { font-size: 8px; line-height: 9px; padding: 1px 2px; }
+        .card.small .card-corner-bl { font-size: 8px; line-height: 9px; padding: 1px 2px; }
+        .card.small .card-center { font-size: 18px; }
         .card.joker { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
         .card.joker .card-corner-tl, .card.joker .card-corner-bl { color: white; }
         
         .card-corner-tl {
             position: absolute;
-            top: 2px;
-            left: 3px;
-            font-size: 11px;
-            line-height: 11px;
+            top: 1px;
+            left: 2px;
+            font-size: 10px;
+            line-height: 10px;
             font-weight: bold;
             text-align: center;
         }
         .card-corner-bl {
             position: absolute;
-            bottom: 2px;
-            right: 3px;
-            font-size: 11px;
-            line-height: 11px;
+            bottom: 1px;
+            right: 2px;
+            font-size: 10px;
+            line-height: 10px;
             font-weight: bold;
             text-align: center;
             transform: rotate(180deg);
@@ -169,18 +170,18 @@ html_code = '''<!DOCTYPE html>
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 28px;
+            font-size: 24px;
             font-weight: bold;
         }
         
         .player-hand .card {
-            margin-left: -24px;
+            margin-left: -18px;
             cursor: pointer;
         }
         .player-hand .card:first-child { margin-left: 0; }
         .player-hand .card.selected {
-            transform: translateY(-16px);
-            box-shadow: 0 6px 18px rgba(255,215,0,0.5);
+            transform: translateY(-14px);
+            box-shadow: 0 5px 15px rgba(255,215,0,0.5);
             border: 2px solid #ffd700;
             z-index: 10;
         }
@@ -190,17 +191,25 @@ html_code = '''<!DOCTYPE html>
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 5px;
-            padding-bottom: env(safe-area-inset-bottom, 6px);
+            gap: 4px;
+            padding-bottom: env(safe-area-inset-bottom, 4px);
+        }
+        .player-hand-wrap {
+            width: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+            padding: 4px 8px;
+            min-height: 72px;
+            display: flex;
+            justify-content: flex-start;
         }
         .player-hand {
             display: flex;
-            justify-content: center;
-            padding: 6px 4px;
-            min-height: 78px;
             align-items: flex-end;
-            overflow-x: auto;
-            max-width: 100vw;
+            padding: 4px 10px;
+            min-height: 68px;
+            margin: 0 auto;
         }
         .btn-area {
             display: flex;
@@ -210,9 +219,9 @@ html_code = '''<!DOCTYPE html>
             margin-bottom: 2px;
         }
         .btn {
-            padding: 7px 20px;
+            padding: 6px 18px;
             border: none;
-            border-radius: 18px;
+            border-radius: 16px;
             font-size: 13px;
             font-weight: bold;
             cursor: pointer;
@@ -261,8 +270,6 @@ html_code = '''<!DOCTYPE html>
         }
         .modal h2 { font-size: 24px; margin-bottom: 10px; color: #ffd700; }
         .modal p { font-size: 14px; margin-bottom: 18px; color: #ccc; line-height: 1.5; }
-        .thinking { animation: pulse 1s infinite; }
-        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
     </style>
 </head>
 <body>
@@ -301,14 +308,15 @@ html_code = '''<!DOCTYPE html>
                 <button class="btn btn-secondary" id="btnPass" onclick="passTurn()" style="display:none;">不要</button>
                 <button class="btn btn-warning" id="btnNew" onclick="startGame()" style="display:none;">再来一局</button>
             </div>
-            <div class="player-hand" id="playerHand"></div>
+            <div class="player-hand-wrap">
+                <div class="player-hand" id="playerHand"></div>
+            </div>
         </div>
     </div>
 
 <script>
 // ==================== 常量 ====================
 const CARD_VALUES = {'3':3,'4':4,'5':5,'6':6,'7':7,'8':8,'9':9,'10':10,'J':11,'Q':12,'K':13,'A':14,'2':15,'小王':16,'大王':17};
-const VALUE_TO_RANK = {3:'3',4:'4',5:'5',6:'6',7:'7',8:'8',9:'9',10:'10',11:'J',12:'Q',13:'K',14:'A',15:'2',16:'小王',17:'大王'};
 const SUITS = ['♠','♥','♣','♦'];
 const RANKS = ['3','4','5','6','7','8','9','10','J','Q','K','A','2'];
 
@@ -327,7 +335,6 @@ function createDeck(){
     return d;
 }
 function sortHand(h){return [...h].sort((a,b)=>a.value-b.value);}
-function clone(c){return {...c};}
 
 function getCardHTML(c, small=false, selectable=false, idx=-1, selected=false){
     const isRed = c.suit==='♥' || c.suit==='♦' || c.rank==='小王' || c.rank==='大王';
@@ -335,18 +342,18 @@ function getCardHTML(c, small=false, selectable=false, idx=-1, selected=false){
     const sz = small ? 'small' : '';
     const sel = selected ? 'selected' : '';
     const jk = c.suit===null ? 'joker' : '';
-    const cornerText = c.suit ? (c.rank + '\\n' + c.suit) : c.rank;
-    const centerText = c.suit ? c.suit : '★';
+    const corner = c.suit ? c.rank + '<br>' + c.suit : c.rank;
+    const center = c.suit ? c.suit : '★';
     if(selectable){
         return `<div class="card ${color} ${sz} ${sel} ${jk}" data-idx="${idx}" onclick="toggleCard(${idx})">` +
-               `<div class="card-corner-tl">${cornerText.replace('\\n','<br>')}</div>` +
-               `<div class="card-center">${centerText}</div>` +
-               `<div class="card-corner-bl">${cornerText.replace('\\n','<br>')}</div></div>`;
+               `<div class="card-corner-tl">${corner}</div>` +
+               `<div class="card-center">${center}</div>` +
+               `<div class="card-corner-bl">${corner}</div></div>`;
     }
     return `<div class="card ${color} ${sz} ${jk}">` +
-           `<div class="card-corner-tl">${cornerText.replace('\\n','<br>')}</div>` +
-           `<div class="card-center">${centerText}</div>` +
-           `<div class="card-corner-bl">${cornerText.replace('\\n','<br>')}</div></div>`;
+           `<div class="card-corner-tl">${corner}</div>` +
+           `<div class="card-center">${center}</div>` +
+           `<div class="card-corner-bl">${corner}</div></div>`;
 }
 
 function showToast(m){
@@ -354,65 +361,60 @@ function showToast(m){
 }
 
 // ==================== 严格牌型判断 ====================
-function countValues(cards){
-    const cnt={};
-    for(const c of cards) cnt[c.value]=(cnt[c.value]||0)+1;
-    return cnt;
-}
-
 function getPattern(cards){
     if(!cards||cards.length===0) return null;
     const n=cards.length;
     const values=cards.map(c=>c.value).sort((a,b)=>a-b);
     const unique=[...new Set(values)].sort((a,b)=>a-b);
-    const cnt=countValues(cards);
+    const cnt={};
+    for(const c of cards) cnt[c.value]=(cnt[c.value]||0)+1;
     const cntVals=Object.values(cnt).sort((a,b)=>a-b);
     const maxVal=Math.max(...values);
     
     // 王炸
     if(n===2 && values.includes(16) && values.includes(17))
-        return {type:'rocket', main:17, level:100, name:'王炸'};
+        return {type:'rocket', main:17, level:100, name:'王炸', count:2};
     
     // 炸弹
     if(n===4 && unique.length===1)
-        return {type:'bomb', main:values[0], level:90, name:'炸弹'};
+        return {type:'bomb', main:values[0], level:90, name:'炸弹', count:4};
     
     // 单张
     if(n===1)
-        return {type:'single', main:values[0], level:1, name:'单张'};
+        return {type:'single', main:values[0], level:1, name:'单张', count:1};
     
     // 对子
     if(n===2 && unique.length===1)
-        return {type:'pair', main:values[0], level:2, name:'对子'};
+        return {type:'pair', main:values[0], level:2, name:'对子', count:2};
     
     // 三张
     if(n===3 && unique.length===1)
-        return {type:'triple', main:values[0], level:3, name:'三张'};
+        return {type:'triple', main:values[0], level:3, name:'三张', count:3};
     
     // 三带一
     if(n===4 && cntVals.join(',')==='1,3'){
         const main=Object.keys(cnt).find(k=>cnt[k]===3);
-        return {type:'triple1', main:parseInt(main), level:4, name:'三带一'};
+        return {type:'triple1', main:parseInt(main), level:4, name:'三带一', count:4};
     }
     
     // 三带二
     if(n===5 && cntVals.join(',')==='2,3'){
         const main=Object.keys(cnt).find(k=>cnt[k]===3);
-        return {type:'triple2', main:parseInt(main), level:5, name:'三带二'};
+        return {type:'triple2', main:parseInt(main), level:5, name:'三带二', count:5};
     }
     
-    // 顺子 (5+ 连续单张，最大到A即14)
+    // 顺子 (5+ 连续单张，最大到A=14)
     if(n>=5 && unique.length===n && maxVal<=14){
         let ok=true;
         for(let i=0;i<unique.length-1;i++) if(unique[i+1]-unique[i]!==1) ok=false;
-        if(ok) return {type:`straight${n}`, main:maxVal, level:10+n, name:`${n}张顺子`};
+        if(ok) return {type:'straight', main:maxVal, level:10+n, name:n+'张顺子', count:n};
     }
     
     // 连对 (3+ 对子连续)
     if(n>=6 && n%2===0 && cntVals.every(c=>c===2) && maxVal<=14){
         let ok=true;
         for(let i=0;i<unique.length-1;i++) if(unique[i+1]-unique[i]!==1) ok=false;
-        if(ok) return {type:`straightPair${n}`, main:maxVal, level:20+n, name:`${n/2}连对`};
+        if(ok) return {type:'straightPair', main:maxVal, level:20+n, name:(n/2)+'连对', count:n};
     }
     
     // 飞机不带翼 (2+ 连续三张)
@@ -421,29 +423,29 @@ function getPattern(cards){
         if(triples.length===n/3 && maxVal<=14){
             let ok=true;
             for(let i=0;i<triples.length-1;i++) if(triples[i+1]-triples[i]!==1) ok=false;
-            if(ok) return {type:`airplane${n}`, main:Math.max(...triples), level:30+n, name:`${n/3}飞机`};
+            if(ok) return {type:'airplane', main:Math.max(...triples), level:30+n, name:(n/3)+'飞机', count:n};
         }
     }
     
-    // 飞机带单 (如 333444+5+6)
+    // 飞机带单
     if(n>=8 && n%4===0){
         const triples=Object.keys(cnt).filter(k=>cnt[k]===3).map(Number).sort((a,b)=>a-b);
         const singles=Object.keys(cnt).filter(k=>cnt[k]===1).map(Number);
         if(triples.length===n/4 && singles.length===n/4 && maxVal<=14){
             let ok=true;
             for(let i=0;i<triples.length-1;i++) if(triples[i+1]-triples[i]!==1) ok=false;
-            if(ok) return {type:`airplaneWing${n}`, main:Math.max(...triples), level:35+n, name:`飞机带单`};
+            if(ok) return {type:'airplaneWing', main:Math.max(...triples), level:35+n, name:'飞机带单', count:n};
         }
     }
     
-    // 飞机带对 (如 333444+55+66)
+    // 飞机带对
     if(n>=10 && n%5===0){
         const triples=Object.keys(cnt).filter(k=>cnt[k]===3).map(Number).sort((a,b)=>a-b);
         const pairs=Object.keys(cnt).filter(k=>cnt[k]===2).map(Number);
         if(triples.length===n/5 && pairs.length===n/5 && maxVal<=14){
             let ok=true;
             for(let i=0;i<triples.length-1;i++) if(triples[i+1]-triples[i]!==1) ok=false;
-            if(ok) return {type:`airplaneWingPair${n}`, main:Math.max(...triples), level:40+n, name:`飞机带对`};
+            if(ok) return {type:'airplaneWingPair', main:Math.max(...triples), level:40+n, name:'飞机带对', count:n};
         }
     }
     
@@ -452,7 +454,7 @@ function getPattern(cards){
         const quads=Object.keys(cnt).filter(k=>cnt[k]===4).map(Number);
         const singles=Object.keys(cnt).filter(k=>cnt[k]===1).map(Number);
         if(quads.length===1 && singles.length===2)
-            return {type:'quad2', main:quads[0], level:50, name:'四带二'};
+            return {type:'quad2', main:quads[0], level:50, name:'四带二', count:6};
     }
     
     // 四带两对
@@ -460,25 +462,34 @@ function getPattern(cards){
         const quads=Object.keys(cnt).filter(k=>cnt[k]===4).map(Number);
         const pairs=Object.keys(cnt).filter(k=>cnt[k]===2).map(Number);
         if(quads.length===1 && pairs.length===2)
-            return {type:'quad2pair', main:quads[0], level:55, name:'四带两对'};
+            return {type:'quad2pair', main:quads[0], level:55, name:'四带两对', count:8};
     }
     
     return null;
 }
 
+// ==================== 严格大小比较 ====================
 function canBeat(last, neu){
-    if(!last) return neu!==null;
+    if(!last) return neu!==null;  // 首家，任何合法牌型都可以出
     if(!neu) return false;
+    
+    // 王炸最大
     if(neu.type==='rocket') return true;
+    
+    // 炸弹可以压任何非王炸的牌
     if(neu.type==='bomb'){
         if(last.type==='rocket') return false;
-        if(last.type==='bomb') return neu.main>last.main;
-        return true;
+        if(last.type==='bomb') return neu.main > last.main;  // 炸弹比大小
+        return true;  // 炸弹压任何普通牌
     }
+    
+    // 普通牌无法压炸弹或王炸
     if(last.type==='bomb' || last.type==='rocket') return false;
-    if(neu.type!==last.type) return false;
-    if(neu.level!==last.level) return false;
-    return neu.main>last.main;
+    
+    // 普通牌之间：类型必须相同，张数必须相同，主牌必须更大
+    if(neu.type !== last.type) return false;
+    if(neu.count !== last.count) return false;
+    return neu.main > last.main;
 }
 
 // ==================== AI 严格出牌逻辑 ====================
@@ -488,27 +499,35 @@ function getAllCombinations(hand, lastPat){
     const vals=Object.keys(groups).map(Number).sort((a,b)=>a-b);
     const candidates=[];
     
+    // 辅助：去重候选
+    function addCandidate(cards, pat){
+        if(!pat) return;
+        if(!canBeat(lastPat, pat)) return;
+        // 去重检查
+        const key=cards.map(c=>c.value+'_'+c.suit).sort().join(',');
+        for(const ex of candidates){
+            const exKey=ex.cards.map(c=>c.value+'_'+c.suit).sort().join(',');
+            if(exKey===key) return;
+        }
+        candidates.push({cards:[...cards],pat});
+    }
+    
     // 1. 单张
     for(const c of hand){
-        const p=getPattern([c]);
-        if(canBeat(lastPat,p)) candidates.push({cards:[c],pat:p});
+        addCandidate([c], getPattern([c]));
     }
     
     // 2. 对子
     for(const v in groups){
         if(groups[v].length>=2){
-            const cs=groups[v].slice(0,2);
-            const p=getPattern(cs);
-            if(canBeat(lastPat,p)) candidates.push({cards:cs,pat:p});
+            addCandidate(groups[v].slice(0,2), getPattern(groups[v].slice(0,2)));
         }
     }
     
     // 3. 三张
     for(const v in groups){
         if(groups[v].length>=3){
-            const cs=groups[v].slice(0,3);
-            const p=getPattern(cs);
-            if(canBeat(lastPat,p)) candidates.push({cards:cs,pat:p});
+            addCandidate(groups[v].slice(0,3), getPattern(groups[v].slice(0,3)));
         }
     }
     
@@ -518,9 +537,7 @@ function getAllCombinations(hand, lastPat){
             const triple=groups[v].slice(0,3);
             for(const k in groups){
                 if(k!==v && groups[k].length>=1){
-                    const cs=[...triple,groups[k][0]];
-                    const p=getPattern(cs);
-                    if(canBeat(lastPat,p)) candidates.push({cards:cs,pat:p});
+                    addCandidate([...triple,groups[k][0]], getPattern([...triple,groups[k][0]]));
                 }
             }
         }
@@ -532,9 +549,7 @@ function getAllCombinations(hand, lastPat){
             const triple=groups[v].slice(0,3);
             for(const k in groups){
                 if(k!==v && groups[k].length>=2){
-                    const cs=[...triple,groups[k][0],groups[k][1]];
-                    const p=getPattern(cs);
-                    if(canBeat(lastPat,p)) candidates.push({cards:cs,pat:p});
+                    addCandidate([...triple,groups[k][0],groups[k][1]], getPattern([...triple,groups[k][0],groups[k][1]]));
                 }
             }
         }
@@ -543,16 +558,14 @@ function getAllCombinations(hand, lastPat){
     // 6. 炸弹
     for(const v in groups){
         if(groups[v].length===4){
-            const p=getPattern(groups[v]);
-            if(canBeat(lastPat,p)) candidates.push({cards:groups[v],pat:p});
+            addCandidate(groups[v], getPattern(groups[v]));
         }
     }
     
     // 7. 王炸
     const jokers=hand.filter(c=>c.rank==='小王'||c.rank==='大王');
     if(jokers.length===2){
-        const p=getPattern(jokers);
-        if(canBeat(lastPat,p)) candidates.push({cards:jokers,pat:p});
+        addCandidate(jokers, getPattern(jokers));
     }
     
     // 8. 顺子 (5-12张)
@@ -562,8 +575,7 @@ function getAllCombinations(hand, lastPat){
             const seq=singleVals.slice(start,start+len);
             if(seq[seq.length-1]-seq[0]===len-1){
                 const cs=seq.map(v=>groups[v][0]);
-                const p=getPattern(cs);
-                if(canBeat(lastPat,p)) candidates.push({cards:cs,pat:p});
+                addCandidate(cs, getPattern(cs));
             }
         }
     }
@@ -576,8 +588,7 @@ function getAllCombinations(hand, lastPat){
             if(seq[seq.length-1]-seq[0]===len-1){
                 const cs=[];
                 for(const v of seq) cs.push(groups[v][0],groups[v][1]);
-                const p=getPattern(cs);
-                if(canBeat(lastPat,p)) candidates.push({cards:cs,pat:p});
+                addCandidate(cs, getPattern(cs));
             }
         }
     }
@@ -590,8 +601,7 @@ function getAllCombinations(hand, lastPat){
             if(seq[seq.length-1]-seq[0]===len-1){
                 const cs=[];
                 for(const v of seq) cs.push(groups[v][0],groups[v][1],groups[v][2]);
-                const p=getPattern(cs);
-                if(canBeat(lastPat,p)) candidates.push({cards:cs,pat:p});
+                addCandidate(cs, getPattern(cs));
             }
         }
     }
@@ -606,12 +616,11 @@ function getAllCombinations(hand, lastPat){
             const need=len;
             const otherVals=vals.filter(v=>!seq.includes(v));
             if(otherVals.length<need) continue;
-            // 选最小的 need 张单牌作为翼
+            // 选最小的 need 张单牌
             const wingCards=[];
             for(const v of otherVals.slice(0,need)) wingCards.push(groups[v][0]);
             const cs=[...tripleCards,...wingCards];
-            const p=getPattern(cs);
-            if(canBeat(lastPat,p)) candidates.push({cards:cs,pat:p});
+            addCandidate(cs, getPattern(cs));
         }
     }
     
@@ -628,8 +637,7 @@ function getAllCombinations(hand, lastPat){
             const wingCards=[];
             for(const v of pairVals2.slice(0,need)) wingCards.push(groups[v][0],groups[v][1]);
             const cs=[...tripleCards,...wingCards];
-            const p=getPattern(cs);
-            if(canBeat(lastPat,p)) candidates.push({cards:cs,pat:p});
+            addCandidate(cs, getPattern(cs));
         }
     }
     
@@ -641,8 +649,7 @@ function getAllCombinations(hand, lastPat){
             for(let i=0;i<other.length;i++){
                 for(let j=i+1;j<other.length;j++){
                     const cs=[...groups[v],other[i],other[j]];
-                    const p=getPattern(cs);
-                    if(canBeat(lastPat,p)) candidates.push({cards:cs,pat:p});
+                    addCandidate(cs, getPattern(cs));
                 }
             }
         }
@@ -653,8 +660,7 @@ function getAllCombinations(hand, lastPat){
         const pairVals3=vals.filter(k=>k!==parseInt(v) && groups[k].length>=2);
         if(pairVals3.length>=2){
             const cs=[...groups[v],groups[pairVals3[0]][0],groups[pairVals3[0]][1],groups[pairVals3[1]][0],groups[pairVals3[1]][1]];
-            const p=getPattern(cs);
-            if(canBeat(lastPat,p)) candidates.push({cards:cs,pat:p});
+            addCandidate(cs, getPattern(cs));
         }
     }
     
@@ -667,7 +673,6 @@ function aiSelectCards(hand, lastPat){
     
     // 策略：优先出非炸弹的小牌；手牌少时优先出能赢的；最后才出炸弹
     candidates.sort((a,b)=>{
-        // 炸弹留到最后
         const aIsBomb=a.pat.type==='bomb'||a.pat.type==='rocket';
         const bIsBomb=b.pat.type==='bomb'||b.pat.type==='rocket';
         if(aIsBomb!==bIsBomb) return aIsBomb?1:-1;
@@ -876,5 +881,5 @@ updateUI();
 with open('/mnt/agents/output/斗地主.html', 'w', encoding='utf-8') as f:
     f.write(html_code)
 
-print("✅ 新版斗地主已生成！")
+print("✅ 修复版斗地主已生成！")
 print("文件大小:", len(html_code), "字节")
